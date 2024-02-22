@@ -3,8 +3,8 @@ package com.dreyer.agendaapi.jpa.mappers;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import com.dreyer.agendaapi.core.boundaries.CreateItem;
-import com.dreyer.agendaapi.core.boundaries.Item;
+import com.dreyer.agendaapi.core.domain.entities.CreateItem;
+import com.dreyer.agendaapi.core.domain.entities.Item;
 import com.dreyer.agendaapi.jpa.entities.ItemEntity;
 
 @Mapper(componentModel = "spring")

@@ -5,9 +5,9 @@ import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.dreyer.agendaapi.core.boundaries.CreateUser;
-import com.dreyer.agendaapi.core.boundaries.User;
-import com.dreyer.agendaapi.core.gateway.UserGateway;
+import com.dreyer.agendaapi.core.domain.entities.CreateUser;
+import com.dreyer.agendaapi.core.domain.entities.User;
+import com.dreyer.agendaapi.core.domain.gateway.UserGateway;
 import com.dreyer.agendaapi.jpa.entities.UserEntity;
 import com.dreyer.agendaapi.jpa.mappers.UserEntityMapper;
 import com.dreyer.agendaapi.jpa.repositories.UserEntityRepository;

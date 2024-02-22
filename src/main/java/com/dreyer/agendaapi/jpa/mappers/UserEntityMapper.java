@@ -2,8 +2,8 @@ package com.dreyer.agendaapi.jpa.mappers;
 
 import org.mapstruct.Mapper;
 
-import com.dreyer.agendaapi.core.boundaries.CreateUser;
-import com.dreyer.agendaapi.core.boundaries.User;
+import com.dreyer.agendaapi.core.domain.entities.CreateUser;
+import com.dreyer.agendaapi.core.domain.entities.User;
 import com.dreyer.agendaapi.jpa.entities.UserEntity;
 
 @Mapper(componentModel = "spring")
