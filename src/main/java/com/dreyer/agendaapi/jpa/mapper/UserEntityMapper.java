@@ -1,4 +1,4 @@
-package com.dreyer.agendaapi.jpa.mappers;
+package com.dreyer.agendaapi.jpa.mapper;
 
 import org.mapstruct.Mapper;
 

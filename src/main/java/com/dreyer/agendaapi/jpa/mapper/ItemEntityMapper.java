@@ -1,4 +1,4 @@
-package com.dreyer.agendaapi.jpa.mappers;
+package com.dreyer.agendaapi.jpa.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -11,9 +11,9 @@ import com.dreyer.agendaapi.jpa.entities.ItemEntity;
 public interface ItemEntityMapper {
 	
 	@Mapping(target = "user.id", source = "item.userId")
-	ItemEntity createItemToItemEntity(CreateItem item);
+	ItemEntity toItemEntity(CreateItem item);
 	
-	ItemEntity itemToItemEntity(Item item);
+	ItemEntity toItemEntity(Item item);
 	
-	Item itemEntityToItem(ItemEntity entity);
+	Item toItem(ItemEntity entity);
 }

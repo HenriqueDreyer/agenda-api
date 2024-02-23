@@ -9,7 +9,11 @@ import com.dreyer.agendaapi.jpa.entities.UserEntity;
 
 @Repository
 public interface UserEntityRepository extends JpaRepository<UserEntity, Long>{
+	UserEntity findByUsername(String username);
 	
 	@Query("SELECT u FROM UserEntity u JOIN FETCH u.roles where u.username = :username")
 	UserEntity findUserByUsernameFetchRoles(@Param("username") String username);
+	
+	@Query("SELECT u FROM UserEntity u JOIN FETCH u.roles where u.id = :id")
+	UserEntity findUserByIdFetchRoles(@Param("id") Long id);
 }

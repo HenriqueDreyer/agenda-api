@@ -4,17 +4,19 @@ import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@AllArgsConstructor
+@Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Getter
 @Setter
-@Builder
-public class CreateUserDTO {
+public class UserDTO {
+	private Long id;
 	private String username;
-	private String password;
 	private List<RoleDTO> roles;
 }

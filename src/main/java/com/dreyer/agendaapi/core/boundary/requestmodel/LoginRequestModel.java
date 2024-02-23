@@ -1,6 +1,4 @@
-package com.dreyer.agendaapi.web.dto;
-
-import java.util.List;
+package com.dreyer.agendaapi.core.boundary.requestmodel;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,13 +6,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@AllArgsConstructor
-@NoArgsConstructor
+@Builder
 @Getter
 @Setter
-@Builder
-public class CreateUserDTO {
+@AllArgsConstructor
+@NoArgsConstructor
+public class LoginRequestModel {
 	private String username;
 	private String password;
-	private List<RoleDTO> roles;
 }

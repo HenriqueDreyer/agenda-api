@@ -12,6 +12,7 @@ import com.dreyer.agendaapi.core.boundary.output.CreateUserOutput;
 import com.dreyer.agendaapi.core.boundary.requestmodel.CreateUserRequestModel;
 import com.dreyer.agendaapi.core.boundary.requestmodel.RoleRequestModel;
 import com.dreyer.agendaapi.core.boundary.responsemodel.ErrorResponseModel;
+import com.dreyer.agendaapi.core.domain.gateway.RoleGateway;
 import com.dreyer.agendaapi.core.domain.gateway.UserGateway;
 import com.dreyer.agendaapi.core.domain.mapper.UserDomainMapper;
 
@@ -20,12 +21,15 @@ public class CreateUserUsecase implements CreateUserInput {
 	
 	@Autowired private final CreateUserOutput output;
 	@Autowired private final UserGateway gateway;
+	@Autowired private final RoleGateway roleGateway;
 	@Autowired private final UserDomainMapper mapper;
 		
-	public CreateUserUsecase(CreateUserOutput output, UserGateway gateway, UserDomainMapper mapper) {
+	public CreateUserUsecase(CreateUserOutput output, UserGateway gateway, UserDomainMapper mapper,
+			RoleGateway roleGateway) {
 		super();
 		this.output = output;
 		this.gateway = gateway;
+		this.roleGateway = roleGateway;
 		this.mapper = mapper;
 	}
 
@@ -35,24 +39,21 @@ public class CreateUserUsecase implements CreateUserInput {
 		
 		if(isNullOrBlank(requestModel.getUsername())) {
 			errors.add(ErrorResponseModel.builder()
+					.code("ERR01")
 					.message("Username is required.")
 					.build());
 		}
 		
 		if(isNullOrBlank(requestModel.getPassword())) {
 			errors.add(ErrorResponseModel.builder()
+					.code("ERR02")
 					.message("Password is required.")
-					.build());
-		}
-		
-		if(isNullOrBlank(requestModel.getUsername())) {
-			errors.add(ErrorResponseModel.builder()
-					.message("Username is required.")
 					.build());
 		}
 		
 		if(isNullOrBlank(requestModel.getRoles())) {
 			errors.add(ErrorResponseModel.builder()
+					.code("ERR03")
 					.message("User Roles is required.")
 					.build());
 		}
@@ -60,14 +61,25 @@ public class CreateUserUsecase implements CreateUserInput {
 		requestModel.getRoles().forEach(role -> {
 			if(!isValidRole(role)) {
 				errors.add(ErrorResponseModel.builder()
+						.code("ERR04")
 						.message(String.format("Role ID: %d invalid.", role.getId()))
 						.build());
 			}
 		});
 		
-		if(!errors.isEmpty())
-			this.output.error(errors);
+		final var existUser = this.gateway.findUserByUsernameFetchRoles(requestModel.getUsername());
+		if(!Objects.isNull(existUser)) {
+			errors.add(ErrorResponseModel.builder()
+					.code("ERR05")
+					.message(String.format("Username %s already exist.", requestModel.getUsername()))
+					.build());
+		}
 		
+		if(!errors.isEmpty()) {
+			this.output.error(errors);
+			return;
+		}		
+					
 		var createUser = mapper.createUserRequestModelToCreateUserDomain(requestModel); 
 		var user = this.gateway.createUser(createUser);
 		
@@ -84,7 +96,8 @@ public class CreateUserUsecase implements CreateUserInput {
 		return Objects.isNull(value);
  	}
 	
-	private boolean isValidRole(RoleRequestModel role) {
-		return false;
+	private boolean isValidRole(RoleRequestModel request) {
+		var role = roleGateway.findRoleById(request.getId());		
+		return !Objects.isNull(role);
 	}
 }
